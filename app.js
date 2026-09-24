@@ -23,8 +23,11 @@ function toast(t) {
   toastTimer = setTimeout(() => { el.hidden = true; }, 4500);
 }
 
+// ที่อยู่ Cloud API สำหรับเชื่อมต่อ Google Drive (ซิงค์มือถือและคอมพิวเตอร์)
+const CLOUD_API_URL = 'https://script.google.com/macros/s/AKfycbzlgQpa1d0YcXmJHnXVqTaXYBDDiS3fnf6HlrcI0d_-b5a-uALjoHqu8SYU7wTexLxD/exec';
+
 // ==========================================
-// ฐานข้อมูลเบราว์เซอร์ IndexedDB (ไม่ต้องมีเซิร์ฟเวอร์/Google Drive)
+// ฐานข้อมูล Cloud Google Drive + Local IndexedDB สำรอง
 // ==========================================
 let dbPromise = null;
 function getDB() {
@@ -38,15 +41,36 @@ function getDB() {
         }
       };
       req.onsuccess = e => resolve(e.target.result);
-      req.onerror = e => reject(Error('เปิดพื้นที่เก็บข้อมูลของเบราว์เซอร์ไม่ได้ กรุณาใช้ Chrome หรือ Edge ในโหมดปกติ'));
+      req.onerror = e => reject(Error('เปิดพื้นที่เก็บข้อมูลของเบราว์เซอร์ไม่ได้'));
     });
   }
   return dbPromise;
 }
 
 async function dbGetAll() {
+  if (CLOUD_API_URL) {
+    try {
+      const res = await fetch(CLOUD_API_URL);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          // ซิงค์สำรองเก็บไว้ในเครื่องด้วย
+          try {
+            const db = await getDB();
+            const tx = db.transaction('records', 'readwrite');
+            const store = tx.objectStore('records');
+            for (const r of data) store.put(r);
+          } catch(e) {}
+          return data;
+        }
+      }
+    } catch (e) {
+      console.warn('โหลดจาก Google Drive ไม่สำเร็จ ดึงข้อมูลสำรองในเครื่องแทน', e);
+    }
+  }
+
   const db = await getDB();
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const tx = db.transaction('records', 'readonly');
     const store = tx.objectStore('records');
     const req = store.getAll();
@@ -55,11 +79,33 @@ async function dbGetAll() {
       list.sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.updated || '').localeCompare(a.updated || ''));
       resolve(list);
     };
-    req.onerror = () => reject(Error('โหลดข้อมูลไม่สำเร็จ'));
+    req.onerror = () => resolve([]);
   });
 }
 
 async function dbSave(item) {
+  if (CLOUD_API_URL) {
+    const res = await fetch(CLOUD_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'save', record: item })
+    });
+    const data = await res.json();
+    if (!data.ok) throw Error(data.error || 'บันทึกลง Google Drive ไม่สำเร็จ');
+    try {
+      const db = await getDB();
+      const tx = db.transaction('records', 'readwrite');
+      tx.objectStore('records').put({
+        ...item,
+        id: data.id || item.id,
+        images: data.images || item.images,
+        author: 'เจ้าหน้าที่',
+        updated: new Date().toISOString()
+      });
+    } catch(e) {}
+    return data;
+  }
+
   const db = await getDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction('records', 'readwrite');
@@ -78,6 +124,22 @@ async function dbSave(item) {
 }
 
 async function dbDelete(id) {
+  if (CLOUD_API_URL) {
+    const res = await fetch(CLOUD_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'delete', id: id })
+    });
+    const data = await res.json();
+    if (!data.ok) throw Error(data.error || 'ลบข้อมูลไม่สำเร็จ');
+    try {
+      const db = await getDB();
+      const tx = db.transaction('records', 'readwrite');
+      tx.objectStore('records').delete(id);
+    } catch(e) {}
+    return data;
+  }
+
   const db = await getDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction('records', 'readwrite');
