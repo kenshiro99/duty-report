@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>สมุดปฏิบัติหน้าที่ | รายงานการปฏิบัติงาน</title>
+  <meta name="description" content="บันทึกการปฏิบัติหน้าที่ประจำวันและรายงานสำหรับผู้บริหาร">
+  <link rel="icon" href="./favicon.svg">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <!-- หน้าจอทำงานหลัก (เข้าใช้งานได้ทันที ไม่ต้องล็อกอิน) -->
+  <div id="workspace">
+    <aside>
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8ec79" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        <span class="logo-title">สมุดปฏิบัติหน้าที่</span>
+      </div>
+      <p class="eyebrow">WORKSPACE</p>
+      <div class="navactive">▦ &nbsp; บันทึกและติดตามงาน</div>
+
+      <div class="aside-tools">
+        <button type="button" id="backupBtn" class="btn-side" title="ดาวน์โหลดไฟล์สำรองข้อมูลพร้อมรูปภาพ">
+          💾 สำรองข้อมูล
+        </button>
+        <label class="btn-side file-label" title="นำเข้าข้อมูลจากไฟล์สำรอง">
+          📂 นำเข้าข้อมูล
+          <input type="file" id="restoreFile" accept="application/json,.json" hidden>
+        </label>
+      </div>
+
+      <div class="asidebottom">
+        <p class="small muted" style="color:#a8c4bd">
+          ✓ ข้อมูลบันทึกในอุปกรณ์นี้<br>
+          ✓ ใช้งานได้ทันที ไม่ต้องต่อเน็ต
+        </p>
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">รายงานการปฏิบัติหน้าที่</p>
+          <h1>ทุกภารกิจ ในที่เดียว</h1>
+          <p class="muted" id="today"></p>
+        </div>
+        <button class="primary" id="newBtn">＋ บันทึกการปฏิบัติงาน</button>
+      </header>
+
+      <section class="stats">
+        <article>
+          <span>รายการทั้งหมด</span>
+          <strong id="total">0</strong>
+          <small>บันทึกในระบบ</small>
+        </article>
+        <article>
+          <span>ปฏิบัติงานวันนี้</span>
+          <strong id="todayCount">0</strong>
+          <small>รายการของวันนี้</small>
+        </article>
+        <article>
+          <span>หน่วยงาน</span>
+          <strong id="unitsCount">0</strong>
+          <small>หน่วยงานที่มีรายงาน</small>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="sectionhead">
+          <div>
+            <h2>รายการปฏิบัติงาน</h2>
+            <p class="muted" id="countLabel"></p>
+          </div>
+          <div class="actions">
+            <button id="refresh">↻ อัปเดต</button>
+            <button id="shareReport" class="primary" style="background:#1d5a4f" title="สร้างไฟล์รายงาน HTML พร้อมรูปภาพในตัว ส่งให้ผู้บริหารเปิดดูได้ทันที">📄 ส่งรายงาน HTML ให้ผู้บริหาร</button>
+            <button id="export">ส่งออก CSV</button>
+            <button id="print">พิมพ์รายงาน (PDF)</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <label>ค้นหารายการ
+            <input id="search" placeholder="รายการ หน่วยงาน หรือหมายเหตุ">
+          </label>
+          <label>หน่วยงาน
+            <select id="unitFilter">
+              <option value="">ทุกหน่วยงาน</option>
+            </select>
+          </label>
+          <label>ตั้งแต่วันที่
+            <input id="from" type="date">
+          </label>
+          <label>ถึงวันที่
+            <input id="to" type="date">
+          </label>
+          <button id="clear">ล้างตัวกรอง</button>
+        </div>
+
+        <div id="records"></div>
+      </section>
+
+      <footer>
+        <span>สมุดปฏิบัติหน้าที่ · บันทึกงานง่าย ส่งรายงานผู้บริหารสะดวก</span>
+        <span id="synced"></span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- หน้าต่างบันทึก / แก้ไขข้อมูล -->
+  <dialog id="editor">
+    <form id="recordForm">
+      <div class="sectionhead">
+        <h2 id="editorTitle">บันทึกการปฏิบัติงาน</h2>
+        <button type="button" data-close="editor" aria-label="ปิด">✕</button>
+      </div>
+      <input name="id" type="hidden">
+      <div class="formgrid">
+        <label>วัน / เดือน / ปี
+          <input name="date" type="date" required>
+        </label>
+        <label>ชื่อหน่วยงาน
+          <input name="unit" list="unitOptions" maxlength="200" required placeholder="เช่น ฝ่ายปฏิบัติการ">
+          <datalist id="unitOptions"></datalist>
+        </label>
+      </div>
+      <label>รายการปฏิบัติ
+        <textarea name="activity" rows="4" maxlength="10000" required placeholder="รายละเอียดภารกิจและผลการปฏิบัติงาน"></textarea>
+      </label>
+      <label>หมายเหตุ
+        <textarea name="note" rows="2" maxlength="10000" placeholder="ข้อมูลเพิ่มเติม (ถ้ามี)"></textarea>
+      </label>
+      <label class="upload">
+        ＋ เพิ่มรูปภาพ
+        <input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+        <span class="muted small">สูงสุด 6 รูป · ย่อขนาดให้อัตโนมัติ · ถ่ายภาพจากมือถือหรือเลือกรูปจากเครื่อง</span>
+      </label>
+      <div id="previews" class="previews"></div>
+      <div class="formfooter">
+        <span class="muted small">วันที่และรายการปฏิบัติเป็นข้อมูลที่ต้องระบุ</span>
+        <button id="save" class="primary" type="submit">บันทึกข้อมูล</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- หน้าต่างดูรายละเอียด -->
+  <dialog id="detail">
+    <div class="sectionhead">
+      <h2>รายละเอียดการปฏิบัติงาน</h2>
+      <button data-close="detail" aria-label="ปิด">✕</button>
+    </div>
+    <div id="detailContent"></div>
+  </dialog>
+
+  <div id="toast" role="status" hidden></div>
+</body>
+</html>
