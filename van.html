@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Security Operations Command Dashboard - ก.ย. 2569</title>
+
+  <!-- Google Fonts: Prompt & Sarabun -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Prompt', 'sans-serif'],
+            body: ['Sarabun', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b',
+            }
+          },
+          boxShadow: {
+            'card': '0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 8px -2px rgba(15, 23, 42, 0.04)',
+            'card-hover': '0 12px 30px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06)',
+            'glow-blue': '0 0 24px -2px rgba(59, 130, 246, 0.3)',
+            'glow-emerald': '0 0 24px -2px rgba(16, 185, 129, 0.3)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    h1, h2, h3, h4, h5, .font-heading {
+      font-family: 'Prompt', sans-serif;
+    }
+    /* Sleek Apple-like Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .badge-soft-emerald {
+      background-color: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .badge-soft-blue {
+      background-color: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+    .badge-soft-amber {
+      background-color: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+    .badge-soft-rose {
+      background-color: #fff1f2;
+      color: #9f1239;
+      border: 1px solid #fecdd3;
+    }
+    .badge-soft-purple {
+      background-color: #faf5ff;
+      color: #6b21a8;
+      border: 1px solid #e9d5ff;
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background-color: white !important; }
+      .print-expand { max-width: 100% !important; padding: 0 !important; }
+      .shadow-card, .shadow-card-hover { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- Top Executive Status Ticker -->
+  <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white text-xs py-2 px-4 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold text-[11px] border border-emerald-400/30">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> รายงานสด ก.ย. 2569
+        </span>
+        <span class="text-slate-300 text-xs">
+          <strong>วาระสำคัญผู้บริหาร:</strong> พบ 3 หน่วยงานสิ้นสุดสัญญา ณ 30 ก.ย. 69 (ALSOK กิตะ, สมบูรณ์ แอดวานซ์, ยูเนี่ยนทูล) รวม 12 อัตราที่ต้องจัดสรรใหม่
+        </span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px] text-slate-300 shrink-0">
+        <span><i class="fa-regular fa-clock mr-1 text-cyan-400"></i>อัปเดต Checklist ประจำเดือน ก.ย. 2569</span>
+        <span class="text-emerald-400 font-medium"><i class="fa-solid fa-circle-check mr-1"></i>ครบ 68 หน่วยงาน 242 อัตรา</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Executive Navigation -->
+  <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 transition-all no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3.5 w-full md:w-auto">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 shrink-0">
+          <i class="fa-solid fa-shield-halved text-2xl"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight font-heading">
+              SECURITY EXECUTIVE COMMAND
+            </h1>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              ฝ่ายปฏิบัติการ
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">
+            รายงานวิเคราะห์การบริหารกำลังพลและกำกับดูแลรายหน่วยงาน ประจำเดือน กันยายน 2569
+          </p>
+        </div>
+      </div>
+
+      <!-- Actions: Period Switcher & Tools -->
+      <div class="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-end">
+        
+        <!-- Period Toggle Switcher -->
+        <div class="bg-slate-100 p-1 rounded-xl flex items-center border border-slate-200 shadow-inner">
+          <button id="btnPeriod1" onclick="switchPeriod('p1')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-indigo-700 shadow-sm flex items-center gap-1.5 font-heading">
+            <i class="fa-regular fa-calendar-check text-indigo-600"></i>
+            <span>งวด 1-15 ก.ย.</span>
+          </button>
+          <button id="btnPeriod2" onclick="switchPeriod('p2')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-heading">
+            <i class="fa-regular fa-calendar-days text-slate-400"></i>
+            <span>งวด 16-30 ก.ย.</span>
+          </button>
+        </div>
+
+        <!-- CSV Export -->
+        <button onclick="exportCSV()" class="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl border border-slate-200 shadow-sm transition flex items-center gap-1.5 font-heading">
+          <i class="fa-solid fa-file-excel text-emerald-600"></i>
+          <span>ส่งออก Excel</span>
+        </button>
+
+        <!-- Print -->
+        <button onclick="window.print()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-md shadow-indigo-600/20 transition flex items-center gap-1.5 font-heading">
+          <i class="fa-solid fa-print"></i>
+          <span>พิมพ์รายงานผู้บริหาร</span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Executive Body -->
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 flex-1 print-expand">
+
+    <!-- Executive Attention Alert Ribbon -->
+    <div class="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border-l-4 border-amber-500 rounded-2xl p-4 shadow-sm border border-amber-200/80">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-md shadow-amber-500/30 text-lg">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-900 font-heading">ประเด็นสำคัญเร่งด่วนสำหรับผู้บริหาร (C-Level Priority)</span>
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-200/80 text-amber-900">สิ้นสุดสัญญา 30 ก.ย. 69</span>
+            </div>
+            <p class="text-xs sm:text-sm text-amber-900 mt-1 leading-relaxed">
+              • มี 3 หน่วยงานสิ้นสุดสัญญาวันที่ 30 ก.ย. 69 ในสายตรวจธีราวัฒน์ ได้แก่ <strong>บ.กิตะ (1 นาย)</strong>, <strong>บ.สมบูรณ์ แอดวานซ์ (10 นาย)</strong>, <strong>บ.ยูเนี่ยนทูล (1 นาย)</strong> รวม <strong>12 นาย</strong> ต้องวางแผนโยกย้ายกำลังพล<br class="hidden sm:inline">
+              • จุดที่อยู่ระหว่างการตรวจ Audit พิเศษ: <strong>เหรียญทองการพิมพ์ (KIMPAI)</strong> (10 นาย) และ <strong>สตาร์ปริ๊นท์</strong> (8 นาย)
+            </p>
+          </div>
+        </div>
+        <div class="shrink-0 self-end md:self-center flex items-center gap-2">
+          <button onclick="quickFilterAction('expire')" class="px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-sm transition">
+            ดู 3 จุดสิ้นสุดสัญญา
+          </button>
+          <button onclick="quickFilterAction('audit')" class="px-3.5 py-1.5 rounded-xl bg-white hover:bg-amber-100/60 text-amber-900 border border-amber-300 text-xs font-bold transition">
+            ดูจุด Audit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 High-Clarity Metric Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Card 1: Total Sites -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-card hover:shadow-card-hover transition-all duration-300 relative overflow-hidden group">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-blue-50 rounded-full group-hover:scale-110 transition"></div>
+        <div class="flex items-center justify-between relative">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider font-heading">หน่วยงานที่ดูแลทั้งหมด</span>
+          <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-building-shield"></i>
+          </div>
+        </div>
+        <div class="mt-3 relative">
+          <div class="flex items-baseline gap-2">
+            <span id="kpiSitesCount" class="text-3xl sm:text-4xl font-black text-slate-900 font-heading">68</span>
+            <span class="text-xs font-semibold text-slate-500">แห่ง (100%)</span>
+          </div>
+          <div class="mt-2 text-xs text-slate-500 flex items-center gap-2 pt-2 border-t border-slate-100">
+            <span class="inline-flex items-center gap-1 text-blue-700 font-medium">
+              <i class="fa-solid fa-location-dot text-blue-500"></i> เขต 1: <strong id="kpiZone1Sites">36</strong>
+            </span>
+            <span class="text-slate-300">|</span>
+            <span class="inline-flex items-center gap-1 text-indigo-700 font-medium">
+              <i class="fa-solid fa-location-dot text-indigo-500"></i> เขต 2: <strong id="kpiZone2Sites">32</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Total Guard Count -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-card hover:shadow-card-hover transition-all duration-300 relative overflow-hidden group">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-emerald-50 rounded-full group-hover:scale-110 transition"></div>
+        <div class="flex items-center justify-between relative">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider font-heading">กำลังพล รปภ. ตามสัญญา</span>
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-users-viewfinder"></i>
+          </div>
+        </div>
+        <div class="mt-3 relative">
+          <div class="flex items-baseline gap-2">
+            <span id="kpiGuardsCount" class="text-3xl sm:text-4xl font-black text-emerald-600 font-heading">242</span>
+            <span class="text-xs font-semibold text-slate-500">นาย</span>
+          </div>
+          <div class="mt-2 text-xs text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
+            <span>ความหนาแน่นเฉลี่ย</span>
+            <span class="font-bold text-slate-700" id="kpiAvgGuards">3.56 นาย / หน่วย</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Shift Rotation Percentage -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-card hover:shadow-card-hover transition-all duration-300 relative overflow-hidden group">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-indigo-50 rounded-full group-hover:scale-110 transition"></div>
+        <div class="flex items-center justify-between relative">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider font-heading">ระบบ "ควงสลับหยุด"</span>
+          <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-arrows-spin"></i>
+          </div>
+        </div>
+        <div class="mt-3 relative">
+          <div class="flex items-baseline gap-2">
+            <span id="kpiShift1Pct" class="text-3xl sm:text-4xl font-black text-indigo-600 font-heading">76.5%</span>
+            <span class="text-xs font-semibold text-slate-500">(<span id="kpiShift1Count">52</span> จุด)</span>
+          </div>
+          <div class="mt-2 text-xs text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
+            <span>สแปร์ / จ่าย 12 ชม.</span>
+            <span class="font-bold text-slate-700" id="kpiOtherShiftCount">16 จุด</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Action Required Units -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-card hover:shadow-card-hover transition-all duration-300 relative overflow-hidden group">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-rose-50 rounded-full group-hover:scale-110 transition"></div>
+        <div class="flex items-center justify-between relative">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider font-heading">จุดที่ต้องติดตาม / จุดไม่พัก</span>
+          <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-bell-concierge"></i>
+          </div>
+        </div>
+        <div class="mt-3 relative">
+          <div class="flex items-baseline gap-2">
+            <span id="kpiAttentionCount" class="text-3xl sm:text-4xl font-black text-rose-600 font-heading">16</span>
+            <span class="text-xs font-semibold text-slate-500">จุด (ทำงานยิงยาว)</span>
+          </div>
+          <div class="mt-2 text-xs text-slate-500 flex items-center justify-between pt-2 border-t border-slate-100">
+            <span>สิ้นสุดสัญญา 30 ก.ย.</span>
+            <span class="font-bold text-rose-600">3 หน่วย (12 อัตรา)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Interactive Filter Toolbar -->
+    <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3 no-print">
+      <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+        
+        <!-- Search Input -->
+        <div class="relative flex-1">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="ค้นหาชื่อหน่วยงาน, รหัสสัญญา (เช่น 14, 266, 330, 508), หรือชื่อสายตรวจ..." 
+            oninput="handleFilterChange()"
+            class="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl pl-10 pr-10 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+          >
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs">
+            <i class="fa-solid fa-circle-xmark text-sm"></i>
+          </button>
+        </div>
+
+        <!-- Dropdown Slicers -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <!-- Zone Filter -->
+          <div>
+            <select id="filterZone" onchange="handleFilterChange()" class="w-full text-xs font-medium bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition cursor-pointer">
+              <option value="ALL">เขตพื้นที่: ทั้งหมด</option>
+              <option value="เขต 1">เขต 1 (36 หน่วยงาน)</option>
+              <option value="เขต 2">เขต 2 (32 หน่วยงาน)</option>
+            </select>
+          </div>
+
+          <!-- Inspector Filter -->
+          <div>
+            <select id="filterInspector" onchange="handleFilterChange()" class="w-full text-xs font-medium bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition cursor-pointer">
+              <option value="ALL">สายตรวจ: ทั้ง 5 ท่าน</option>
+              <option value="เสกสรรณ์">เสกสรรณ์ (22 จุด, 63 นาย)</option>
+              <option value="อำนาจ">อำนาจ (14 จุด, 58 นาย)</option>
+              <option value="จักดุลย์">จักดุลย์ (15 จุด, 57 นาย)</option>
+              <option value="พูทธพงศ์">พุทธพงศ์ (9 จุด, 30 นาย)</option>
+              <option value="ธีราวัฒน์">ธีราวัฒน์ (8 จุด, 34 นาย)</option>
+            </select>
+          </div>
+
+          <!-- Shift Model Filter -->
+          <div>
+            <select id="filterShift" onchange="handleFilterChange()" class="w-full text-xs font-medium bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition cursor-pointer">
+              <option value="ALL">รูปแบบกะ: ทั้งหมด</option>
+              <option value="ควงสลับหยุด">ควงสลับหยุด</option>
+              <option value="หยุดจริง+สแปร์">หยุดจริง+สแปร์</option>
+              <option value="จ่าย 12">จ่าย 12 ชม.</option>
+            </select>
+          </div>
+
+          <!-- Status / Risk Filter -->
+          <div>
+            <select id="filterStatus" onchange="handleFilterChange()" class="w-full text-xs font-medium bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition cursor-pointer">
+              <option value="ALL">สถานะพิเศษ: ทั้งหมด</option>
+              <option value="expire">สิ้นสุดสัญญา 30 ก.ย.</option>
+              <option value="audit">อยู่ระหว่าง Audit</option>
+              <option value="norest">ไม่พัก (ยิงยาว)</option>
+              <option value="normal">ปกติ (มีวันพัก)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <button onclick="resetFilters()" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition border border-slate-200 font-heading">
+          <i class="fa-solid fa-arrows-rotate"></i>
+          <span class="hidden sm:inline">รีเซ็ต</span>
+        </button>
+
+      </div>
+
+      <!-- Quick Preset Buttons -->
+      <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 text-xs">
+        <span class="text-slate-400 font-medium text-[11px] font-heading">มุมมองด่วนสำหรับผู้บริหาร:</span>
+        <button onclick="quickFilterAction('seksan')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition">สายตรวจเสกสรรณ์ (ใหญ่สุด)</button>
+        <button onclick="quickFilterAction('theerawat')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition">สายตรวจธีราวัฒน์ (สิ้นสุดสัญญา)</button>
+        <button onclick="quickFilterAction('norest')" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-medium border border-rose-200 transition">
+          <i class="fa-solid fa-clock mr-1 text-rose-500"></i>จุดไม่พัก (ทำงานยิงยาว)
+        </button>
+        <button onclick="quickFilterAction('audit')" class="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 font-medium border border-amber-200 transition">
+          <i class="fa-solid fa-shield-virus mr-1 text-amber-600"></i>จุด Audit เข้มข้น
+        </button>
+      </div>
+    </div>
+
+    <!-- 3 Executive Charts Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Chart 1: Inspector Headcount & Unit Workload (2 Columns Wide) -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-card lg:col-span-2 flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 font-heading flex items-center gap-2">
+              <i class="fa-solid fa-chart-column text-indigo-600"></i>
+              การกระจายกำลังพลและหน่วยงาน จำแนกตามผู้ตรวจการ (Inspector Workload)
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">เปรียบเทียบสัดส่วนกำลังพล รปภ. (นาย) และจำนวนหน่วยงานที่ดูแล (แห่ง)</p>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-100 font-heading">
+            5 สายตรวจ 2 เขต
+          </span>
+        </div>
+        <div class="relative h-64 sm:h-72 w-full">
+          <canvas id="inspectorChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2: Shift Structure Breakdown (Donut) -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-card flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 font-heading flex items-center gap-2">
+              <i class="fa-solid fa-chart-pie text-violet-600"></i>
+              สัดส่วนรูปแบบการจัดกะ (Shift Model)
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5" id="shiftChartSubtitle">งวด 1-15 ก.ย. 2569</p>
+          </div>
+        </div>
+        <div class="relative h-56 flex items-center justify-center">
+          <canvas id="shiftDonutChart"></canvas>
+        </div>
+        <div class="mt-2 pt-3 border-t border-slate-100 text-center text-[11px] text-slate-500">
+          * รูปแบบ <strong class="text-indigo-600">ควงสลับหยุด</strong> มีสัดส่วนสูงสุด เพื่อรักษาความต่อเนื่องของจุดตรวจ
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Detailed Interactive Data Registry -->
+    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-card overflow-hidden">
+      
+      <!-- Table Header & Controls -->
+      <div class="p-4 bg-slate-50/80 border-b border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-sm font-bold shadow-md shadow-indigo-600/20">
+            <i class="fa-solid fa-list-check"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 font-heading flex items-center gap-2">
+              ตารางบันทึกการตรวจสอบรายหน่วยงาน (Checklist Registry)
+              <span id="tableCountBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700">
+                68 / 68 รายการ
+              </span>
+            </h3>
+            <p class="text-xs text-slate-500">คลิกที่แต่ละแถวเพื่อเปิดแบบสรุปการตรวจประเมิน 2 งวด (Inspector Sheet)</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs">
+          <span class="text-slate-500 font-medium">มุมมองงวด:</span>
+          <span id="activePeriodLabel" class="font-bold text-indigo-700 px-3 py-1 bg-white rounded-lg border border-indigo-200 shadow-xs font-heading">
+            งวด 1-15 ก.ย. 2569
+          </span>
+        </div>
+      </div>
+
+      <!-- Scrollable Data Table -->
+      <div class="overflow-x-auto max-h-[560px]">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead class="bg-slate-100/90 text-slate-700 font-semibold text-[11px] uppercase tracking-wider sticky top-0 z-20 backdrop-blur-md border-b border-slate-200">
+            <tr>
+              <th class="py-3 px-3.5 text-center w-12">ลำดับ</th>
+              <th class="py-3 px-3.5">เขต / สายตรวจ</th>
+              <th class="py-3 px-3.5 w-16 text-center">รหัส</th>
+              <th class="py-3 px-4 min-w-[260px]">ชื่อหน่วยงาน / บริษัท</th>
+              <th class="py-3 px-3.5 text-center font-bold text-indigo-900">อัตราสัญญา</th>
+              <th class="py-3 px-3.5 text-center">รูปแบบกะ</th>
+              <th class="py-3 px-3.5 text-center">สถานะวันพัก</th>
+              <th class="py-3 px-3.5 text-center">ส่งตรวจ</th>
+              <th class="py-3 px-3.5 text-center">ตารางหยุด</th>
+              <th class="py-3 px-3.5">หมายเหตุ / สถานะสำคัญ</th>
+              <th class="py-3 px-3.5 text-center w-16 no-print">เปิดดู</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-600">
+            <!-- Dynamically populated rows via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Summary Footer -->
+      <div class="p-3.5 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+        <div class="flex items-center gap-3">
+          <span>รวมหน่วยงานที่แสดง: <strong id="footerUnitsCount" class="text-slate-800 font-bold">68</strong> แห่ง</span>
+          <span>•</span>
+          <span>รวมอัตรากำลังพล: <strong id="footerGuardsCount" class="text-indigo-600 font-bold">242</strong> นาย</span>
+        </div>
+        <div class="flex items-center gap-3 text-[11px]">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> ปกติ</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Audit / สแปร์</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> สิ้นสุดสัญญา / ไม่พัก</span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer Note -->
+  <footer class="bg-white border-t border-slate-200 py-4 px-4 sm:px-6 lg:px-8 mt-6 text-xs text-slate-400 no-print">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-shield text-indigo-500"></i>
+        <span>Security Operations Executive Intelligence • ฝ่ายบริหารสายตรวจปฏิบัติการ</span>
+      </div>
+      <div>อ้างอิงข้อมูล: บันทึก Checklist การตรวจกำลังพลและสัญญารายหน่วยงาน (กันยายน 2569)</div>
+    </div>
+  </footer>
+
+  <!-- Detail Drill-down Modal -->
+  <div id="detailModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4 transition-all">
+    <div class="bg-white rounded-3xl border border-slate-200 max-w-xl w-full p-6 relative max-h-[92vh] overflow-y-auto shadow-2xl animate-in fade-in duration-200">
+      
+      <!-- Close Button -->
+      <button onclick="closeModal()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Modal Title -->
+      <div class="flex items-start gap-3.5 mb-5">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 text-xl shadow-sm">
+          <i class="fa-solid fa-building-shield"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="modalCode" class="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">CODE</span>
+            <span id="modalZone" class="text-xs px-2.5 py-0.5 rounded font-bold bg-slate-100 text-slate-700">เขต 1</span>
+          </div>
+          <h3 id="modalName" class="text-base sm:text-lg font-bold text-slate-900 mt-1 font-heading">ชื่อหน่วยงาน</h3>
+          <p id="modalInspector" class="text-xs text-slate-500 mt-0.5">ผู้ตรวจการ: -</p>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="grid grid-cols-2 gap-3 mb-5">
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+          <span class="text-[11px] text-slate-400 font-semibold font-heading uppercase">กำลังพลตามสัญญา</span>
+          <div class="text-2xl font-black text-indigo-600 font-heading mt-0.5" id="modalGuards">0 นาย</div>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+          <span class="text-[11px] text-slate-400 font-semibold font-heading uppercase">ตารางวันหยุด</span>
+          <div class="text-base font-bold text-emerald-700 mt-1 flex items-center gap-1.5" id="modalHoliday">
+            <i class="fa-solid fa-circle-check text-emerald-500"></i> มีตารางเรียบร้อย
+          </div>
+        </div>
+      </div>
+
+      <!-- Two-Period Status Comparison -->
+      <div class="space-y-3 mb-5">
+        
+        <!-- Period 1 -->
+        <div class="p-4 rounded-2xl border border-indigo-100 bg-indigo-50/40">
+          <div class="flex items-center justify-between text-xs mb-2">
+            <span class="font-bold text-indigo-900 font-heading flex items-center gap-1.5">
+              <i class="fa-regular fa-clock text-indigo-600"></i> งวดที่ 1 (1 - 15 ก.ย. 2569)
+            </span>
+            <span id="modalP1RestBadge" class="px-2 py-0.5 rounded text-[11px] font-bold">พักปกติ</span>
+          </div>
+          <div class="text-xs text-slate-600 space-y-1.5">
+            <div class="flex justify-between">
+              <span class="text-slate-500">• รูปแบบการจัดกะ:</span>
+              <strong id="modalP1Shift" class="text-slate-800 font-medium">-</strong>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-500">• สถานะการส่งตรวจ:</span>
+              <span id="modalP1Inspect" class="text-slate-700">-</span>
+            </div>
+            <div class="flex justify-between items-start">
+              <span class="text-slate-500">• หมายเหตุประจำงวด:</span>
+              <span id="modalP1Note" class="text-slate-800 text-right max-w-[280px] font-medium">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Period 2 -->
+        <div class="p-4 rounded-2xl border border-violet-100 bg-violet-50/40">
+          <div class="flex items-center justify-between text-xs mb-2">
+            <span class="font-bold text-violet-900 font-heading flex items-center gap-1.5">
+              <i class="fa-solid fa-flag-checkered text-violet-600"></i> งวดที่ 2 (16 - 30 ก.ย. 2569)
+            </span>
+            <span id="modalP2RestBadge" class="px-2 py-0.5 rounded text-[11px] font-bold">พักปกติ</span>
+          </div>
+          <div class="text-xs text-slate-600 space-y-1.5">
+            <div class="flex justify-between">
+              <span class="text-slate-500">• รูปแบบการจัดกะ:</span>
+              <strong id="modalP2Shift" class="text-slate-800 font-medium">-</strong>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-500">• สถานะการส่งตรวจ:</span>
+              <span id="modalP2Inspect" class="text-slate-700">-</span>
+            </div>
+            <div class="flex justify-between items-start">
+              <span class="text-slate-500">• หมายเหตุประจำงวด:</span>
+              <span id="modalP2Note" class="text-slate-800 text-right max-w-[280px] font-medium">-</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex justify-end pt-2 border-t border-slate-100">
+        <button onclick="closeModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl transition">
+          ปิดหน้าต่าง
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Complete Verified 68 Sites Dataset (checklistกย69.xlsx)
+    const MASTER_DATASET = [
+      // ==========================================
+      // เขต 1: สายตรวจ เสกสรรณ์ (22 หน่วยงาน, 63 อัตรา)
+      // ==========================================
+      { id: 1, zone: "เขต 1", inspector: "เสกสรรณ์", code: "14", name: "บริษัท กุลธร จำกัด (ถนนหลานหลวง)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 2, zone: "เขต 1", inspector: "เสกสรรณ์", code: "14", name: "บริษัท สิมะกุลธรโฮลดิ้ง จำกัด (บ้านประธานกุลธร ซอยพัฒนาการ 53)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 3, zone: "เขต 1", inspector: "เสกสรรณ์", code: "37", name: "นิติบุคคลหมู่บ้านจัดสรร พาทิโอ พัฒนาการ", guards: 6, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 4, zone: "เขต 1", inspector: "เสกสรรณ์", code: "58", name: "โกลเด้น นีโอ บางนา - สวนหลวง", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 5, zone: "เขต 1", inspector: "เสกสรรณ์", code: "64", name: "เคเอสเรสซิเดนท์ (บริษัท เค.เอส.ออโตโมบิล จำกัด)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 6, zone: "เขต 1", inspector: "เสกสรรณ์", code: "156", name: "บริษัท เหรียญทองการพิมพ์ จำกัด พระราม 3 (สาขา00001)", guards: 6, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 7, zone: "เขต 1", inspector: "เสกสรรณ์", code: "198", name: "บริษัท เฮลเม็ต เคลต์ จำกัด (สำนักงานใหญ่)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 8, zone: "เขต 1", inspector: "เสกสรรณ์", code: "266", name: "(พฤกษา) สำนักงานใหญ่ พฤกษา", guards: 3, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 9, zone: "เขต 1", inspector: "เสกสรรณ์", code: "282", name: "บริษัท รื่นฤดี ดีเวลล็อปเมนท์ จำกัด (ถนนติวานนท์)", guards: 1, p1_shift: "จ่าย 12", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "จ่าย 12 ชม.", p2_shift: "จ่าย 12", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "จ่าย 12 ชม." },
+      { id: 10, zone: "เขต 1", inspector: "เสกสรรณ์", code: "289", name: "บริษัท ไทยอ๊อฟเซท จำกัด", guards: 6, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 11, zone: "เขต 1", inspector: "เสกสรรณ์", code: "326", name: "นิติบุคคลอาคารชุด สุภาวดี ทาวเวอร์", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 12, zone: "เขต 1", inspector: "เสกสรรณ์", code: "333", name: "โกลเด้น นีโอ สุขสวัสดิ์-พระราม 3 (ลด 1 นาย เริ่ม 1/9/69)", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว/ลดอัตรา)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว/ลดอัตรา)" },
+      { id: 13, zone: "เขต 1", inspector: "เสกสรรณ์", code: "340", name: "โกลเด้น ทาวน์ สุขสวัสดิ์-พระราม 3", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 14, zone: "เขต 1", inspector: "เสกสรรณ์", code: "368", name: "นิติบุคคลหมู่บ้านจัดสรร เดอะคอนเนค 24", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 15, zone: "เขต 1", inspector: "เสกสรรณ์", code: "386", name: "บริษัท ชวนันท์ คอปอเรชั่น จำกัด (รปภ.ทำ 13 ชั่วโมง)", guards: 1, p1_shift: "จ่าย 12", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "จ่าย 12 ชม. (ทำ 13 ชม.)", p2_shift: "จ่าย 12", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "จ่าย 12 ชม. (ทำ 13 ชม.)" },
+      { id: 16, zone: "เขต 1", inspector: "เสกสรรณ์", code: "409", name: "บริษัท เอตัน เฮ้าส์ จำกัด (สาขา 00003 ซอยตากสิน 41)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 17, zone: "เขต 1", inspector: "เสกสรรณ์", code: "410", name: "บริษัท เอตัน เฮ้าส์ จำกัด (สาขา 00005 ถนนประชาอุทิศ)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 18, zone: "เขต 1", inspector: "เสกสรรณ์", code: "451", name: "(พฤกษา) พลัมคอนโด พระราม 2.1 (PLUM CONDO RAMA 2.1)", guards: 1, p1_shift: "จ่าย 12", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (จ่าย 12)", p2_shift: "จ่าย 12", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (จ่าย 12)" },
+      { id: 19, zone: "เขต 1", inspector: "เสกสรรณ์", code: "452", name: "(พฤกษา) เดอะ ไพรเวซี่ จตุจักร", guards: 1, p1_shift: "จ่าย 12", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (จ่าย 12)", p2_shift: "จ่าย 12", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (จ่าย 12)" },
+      { id: 20, zone: "เขต 1", inspector: "เสกสรรณ์", code: "483", name: "นิติบุคลอาคารชุด แชปเตอร์วัน เดอะแคมปัส ลาดพร้าว 1", guards: 3, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 21, zone: "เขต 1", inspector: "เสกสรรณ์", code: "462", name: "บริษัท จีพี มอเตอร์ (ประเทศไทย) จำกัด (GPX พระราม 4)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 22, zone: "เขต 1", inspector: "เสกสรรณ์", code: "510", name: "ซอย สุขุมวิท 11/1 (บ.ไชยยศ คอนเนอร์ ดีเวลลอปเม้นท์)", guards: 3, p1_shift: "จ่าย 12", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (จ่าย 1 หยุด 1)", p2_shift: "จ่าย 12", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (จ่าย 1 หยุด 1)" },
+
+      // ==========================================
+      // เขต 1: สายตรวจ อำนาจ (14 หน่วยงาน, 58 อัตรา)
+      // ==========================================
+      { id: 23, zone: "เขต 1", inspector: "อำนาจ", code: "57", name: "บริษัท เจอาร์ เอฟ แอนด์ บี จำกัด", guards: 6, p1_shift: "หยุดจริง+สแปร์", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "ส่งเอกสารครบ", p2_shift: "หยุดจริง+สแปร์", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "ส่งเอกสารครบ" },
+      { id: 24, zone: "เขต 1", inspector: "อำนาจ", code: "293", name: "โกลเด้น ทาวน์ งามวงศ์วาน - แคราย", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 25, zone: "เขต 1", inspector: "อำนาจ", code: "315", name: "โกลเด้น ทาวน์ เพชรเกษม 81", guards: 5, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 26, zone: "เขต 1", inspector: "อำนาจ", code: "335", name: "โกลเด้น ทาวน์ 2 (รามอินทรา-วงแหวน)", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 27, zone: "เขต 1", inspector: "อำนาจ", code: "392", name: "บริษัท ไซแมท เทคโนโลยี จำกัด (มหาชน)", guards: 1, p1_shift: "จ่าย 12", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "จ่าย 12 ชม.", p2_shift: "จ่าย 12", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "จ่าย 12 ชม." },
+      { id: 28, zone: "เขต 1", inspector: "อำนาจ", code: "405", name: "บริษัท โคกุ เคมิคอลส์ จำกัด", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 29, zone: "เขต 1", inspector: "อำนาจ", code: "419", name: "บริษัท จินซาน อิเล็คโทรนิคฯ (นิคมอุตสาหกรรมบางชัน)", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 30, zone: "เขต 1", inspector: "อำนาจ", code: "467", name: "(พฤกษา) เดอะปาล์ม แจ้งวัฒนะ-ชัยพฤกษ์ PS 80", guards: 6, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 31, zone: "เขต 1", inspector: "อำนาจ", code: "477", name: "บริษัท ยาน ทิน อิเล็กทรอนิกส์ เทคโนโลยี (ไทยแลนด์) จำกัด", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 32, zone: "เขต 1", inspector: "อำนาจ", code: "503", name: "นิติบุคคลหมู่บ้านจัดสรร เรสท์ บางใหญ่", guards: 6, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 33, zone: "เขต 1", inspector: "อำนาจ", code: "507", name: "(พฤกษา) โครงการ เดอะปาล์ม เรสซิเดนท์เซส วิภาวดี (PS113)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 34, zone: "เขต 1", inspector: "อำนาจ", code: "513", name: "(ALSOK) บริษัท นิสซิน เทคนิส (ลูกค้ายก 31/8/69 - บริษัทยก 30/9/69)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "ลูกค้ายก 31/8 - บริษัทยก 30/9/69", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "สิ้นสุดสัญญา 30/9/69" },
+      { id: 35, zone: "เขต 1", inspector: "อำนาจ", code: "527", name: "นิติบุคคล ศุภาลัย เบลล่า วงแหวน - รามอินทรา", guards: 6, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "จ่าย 12", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "งวด 2 จ่าย 1 หยุด 1" },
+      { id: 36, zone: "เขต 1", inspector: "อำนาจ", code: "529", name: "โครงการ พฤกษาวิลเลจ 28", guards: 8, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+
+      // ==========================================
+      // เขต 2: สายตรวจ จักดุลย์ (15 หน่วยงาน, 57 อัตรา)
+      // ==========================================
+      { id: 37, zone: "เขต 2", inspector: "จักดุลย์", code: "72", name: "บริษัท ดูราแพค จำกัด", guards: 3, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 38, zone: "เขต 2", inspector: "จักดุลย์", code: "76", name: "บริษัท ฟากอร์อีเล็คโทรนิคส์ (ประเทศไทย) จำกัด", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 39, zone: "เขต 2", inspector: "จักดุลย์", code: "92", name: "บริษัท ประชาอาภรณ์ จำกัด (มหาชน)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 40, zone: "เขต 2", inspector: "จักดุลย์", code: "116", name: "บริษัท ไทยฟูโกกุ จำกัด (สำนักงานใหญ่)", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 41, zone: "เขต 2", inspector: "จักดุลย์", code: "204", name: "บริษัท วินเบสท์ อินดัสเทรี่ยลฯ (เวลโกรว์)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (เข้าตรวจ Audit)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "Audit", p2_sched: "มี", p2_note: "อยู่ระหว่าง Audit" },
+      { id: 42, zone: "เขต 2", inspector: "จักดุลย์", code: "330", name: "บริษัท เหรียญทองการพิมพ์ จำกัด (สาขา 00003) KIMPAI", guards: 10, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "Audit", p1_sched: "มี", p1_note: "Audit ตรวจสอบเข้มงวด", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "Audit", p2_sched: "มี", p2_note: "Audit ผ่านการประเมิน" },
+      { id: 43, zone: "เขต 2", inspector: "จักดุลย์", code: "353", name: "บริษัท วินเบสท์ อินดัสเทรี่ยลฯ (โรงใหม่ 2)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 44, zone: "เขต 2", inspector: "จักดุลย์", code: "376", name: "บริษัท ฟอร์เวิร์ค กลาส (ไทยแลนด์) จำกัด", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 45, zone: "เขต 2", inspector: "จักดุลย์", code: "423", name: "บริษัท ซี.ไอ.เอ็น. เอสเตท จำกัด (บางนาอิสสระ หมู่บ้าน)", guards: 5, p1_shift: "หยุดจริง+สแปร์", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "ส่งเอกสารตรวจครบ", p2_shift: "หยุดจริง+สแปร์", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "ส่งเอกสารตรวจครบ" },
+      { id: 46, zone: "เขต 2", inspector: "จักดุลย์", code: "434", name: "บริษัท ไทย โอ.พี.พี จำกัด (มหาชน) สาขา 00009 (รปภ.ทำ 8 ชม.)", guards: 1, p1_shift: "จ่าย 12", p1_inspect: "ส่งแล้ว", p1_rest: "ไปควงที่อื่น", p1_sched: "มี", p1_note: "จ่าย 8 ชม. (ไปควงจุดอื่น)", p2_shift: "จ่าย 12", p2_inspect: "ส่งแล้ว", p2_rest: "ไปควงที่อื่น", p2_sched: "มี", p2_note: "จ่าย 8 ชม. (ไปควงจุดอื่น)" },
+      { id: 47, zone: "เขต 2", inspector: "จักดุลย์", code: "445", name: "บริษัท อาโครม่า เท็กซ์ไทล์ เอฟเฟคส์ (นิคมอุตสาหกรรมบางปลา)", guards: 7, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 48, zone: "เขต 2", inspector: "จักดุลย์", code: "461", name: "บริษัท สตาร์ปริ๊นท์ จำกัด (มหาชน)", guards: 8, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "Audit", p1_sched: "มี", p1_note: "Audit ตรวจสอบเอกสาร", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "Audit", p2_sched: "มี", p2_note: "Audit ผ่านการประเมิน" },
+      { id: 49, zone: "เขต 2", inspector: "จักดุลย์", code: "472", name: "บริษัท วินเบสท์ ไบโอเทค (ไทยแลนด์) จำกัด (โรงงานใหม่บ้านโพธิ์)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "Audit", p2_sched: "มี", p2_note: "เข้ากระบวนการ Audit" },
+      { id: 50, zone: "เขต 2", inspector: "จักดุลย์", code: "478", name: "มูลนิธิหอธรรมพระบารมี", guards: 3, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 51, zone: "เขต 2", inspector: "จักดุลย์", code: "501", name: "บริษัท อาโครม่า (ประเทศไทย) จำกัด (นิคมอุตสาหกรรมบางปู)", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+
+      // ==========================================
+      // เขต 2: สายตรวจ พูทธพงศ์ (9 หน่วยงาน, 30 อัตรา)
+      // ==========================================
+      { id: 52, zone: "เขต 2", inspector: "พูทธพงศ์", code: "196", name: "บริษัท พรีเมียร์โพรดักส์ จำกัด (มหาชน) สำนักงานใหญ่", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 53, zone: "เขต 2", inspector: "พูทธพงศ์", code: "321", name: "นิติบุคคลหมู่บ้านจัดสรร โกลเด้นทาวน์ พัทยาใต้", guards: 3, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 54, zone: "เขต 2", inspector: "พูทธพงศ์", code: "396", name: "บริษัท เคียวเซกิ ออโตโมทิฟ ไปป์ ปิ้ง จำกัด", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 55, zone: "เขต 2", inspector: "พูทธพงศ์", code: "466", name: "(พฤกษา) เดอะปาล์ม กรุงเทพกรีฑา PS86", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 56, zone: "เขต 2", inspector: "พูทธพงศ์", code: "468", name: "บริษัท สเตลล่า เอ็กซ์ จำกัด (ณุศา ชีวานี่ พัทยา พูลวิลล่า)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 57, zone: "เขต 2", inspector: "พูทธพงศ์", code: "481", name: "บริษัท เอ็นริช โฟรเซ่น จำกัด", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 58, zone: "เขต 2", inspector: "พูทธพงศ์", code: "495", name: "บริษัท ทัทสุมิ โชไก (ประเทศไทย) จำกัด (TAS Logistics)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 59, zone: "เขต 2", inspector: "พูทธพงศ์", code: "506", name: "(พฤกษา) โครงการ เดอะปาล์ม คอร์ตยาร์ด บางนา กม.8 (PS112)", guards: 3, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+      { id: 60, zone: "เขต 2", inspector: "พูทธพงศ์", code: "528", name: "(พฤกษา) โครงการ เดอะปาล์ม บางนา-วงแหวนฯ (PS100)", guards: 6, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "ไม่พัก", p1_sched: "มี", p1_note: "ไม่พัก (ยิงยาว)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "ไม่พัก", p2_sched: "มี", p2_note: "ไม่พัก (ยิงยาว)" },
+
+      // ==========================================
+      // เขต 2: สายตรวจ ธีราวัฒน์ (8 หน่วยงาน, 34 อัตรา)
+      // ==========================================
+      { id: 61, zone: "เขต 2", inspector: "ธีราวัฒน์", code: "83", name: "บริษัท แม็ค พริ๊นท์แอนด์แพค จำกัด", guards: 3, p1_shift: "หยุดจริง+สแปร์", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "ส่งตรวจครบ", p2_shift: "หยุดจริง+สแปร์", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "ส่งตรวจครบ" },
+      { id: 62, zone: "เขต 2", inspector: "ธีราวัฒน์", code: "83", name: "บริษัท เอ็น เอช เค สปริง (ประเทศไทย) จำกัด", guards: 12, p1_shift: "หยุดจริง+สแปร์", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "หน่วยงานขนาดใหญ่ (12 อัตรา)", p2_shift: "หยุดจริง+สแปร์", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "ส่งเอกสารตรวจครบ" },
+      { id: 63, zone: "เขต 2", inspector: "ธีราวัฒน์", code: "450", name: "บริษัท จินซาน อิเล็คโทรนิคฯ (โรง 3 นิคมเอเชีย สุวรรณภูมิ)", guards: 4, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 64, zone: "เขต 2", inspector: "ธีราวัฒน์", code: "471", name: "บริษัท เกรท ดิสทริบิวเทอร์ จำกัด (มหาชน) (คลังบางพลี)", guards: 2, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "-", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "-" },
+      { id: 65, zone: "เขต 2", inspector: "ธีราวัฒน์", code: "493", name: "บริษัท บี เชน จำกัด (โกดัง Frasers คลัง W8/3)", guards: 1, p1_shift: "หยุดจริง+สแปร์", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "สแปร์", p2_shift: "หยุดจริง+สแปร์", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "สแปร์" },
+      { id: 66, zone: "เขต 2", inspector: "ธีราวัฒน์", code: "508", name: "(ALSOK) บริษัท กิตะ คอร์ปอเรชั่น (รปภ.13 ชม.) (ลูกค้ายก 31/8 - บริษัทยก 30/9/69)", guards: 1, p1_shift: "หยุดจริง+สแปร์", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "สิ้นสุดสัญญา 30/9/69", p2_shift: "หยุดจริง+สแปร์", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "สิ้นสุดสัญญา 30/9/69" },
+      { id: 67, zone: "เขต 2", inspector: "ธีราวัฒน์", code: "509", name: "(ALSOK) บริษัท สมบูรณ์ แอดวานซ์ เทคโนโลยี จำกัด (มหาชน) (ลูกค้ายก 31/8 - บริษัทยก 30/9/69)", guards: 10, p1_shift: "ควงสลับหยุด", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "ยกเลิกสัญญา 30/9/69 (10 นาย)", p2_shift: "ควงสลับหยุด", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "ยกเลิกสัญญา 30/9/69 (10 นาย)" },
+      { id: 68, zone: "เขต 2", inspector: "ธีราวัฒน์", code: "518", name: "(ALSOK) บริษัท ยูเนี่ยน ทูล (ประเทศไทย) จำกัด (ลูกค้ายก 27/8 - บริษัทยก 30/9/69)", guards: 1, p1_shift: "หยุดจริง+สแปร์", p1_inspect: "ส่งแล้ว", p1_rest: "พัก", p1_sched: "มี", p1_note: "สิ้นสุดสัญญา 30/9/69", p2_shift: "หยุดจริง+สแปร์", p2_inspect: "ส่งแล้ว", p2_rest: "พัก", p2_sched: "มี", p2_note: "สิ้นสุดสัญญา 30/9/69" }
+    ];
+
+    // Current Active State
+    let currentPeriod = 'p1'; // 'p1' = งวด 1-15, 'p2' = งวด 16-30
+    let inspectorChartInstance = null;
+    let shiftDonutChartInstance = null;
+
+    // Switch Period Function
+    function switchPeriod(period) {
+      currentPeriod = period;
+      const b1 = document.getElementById('btnPeriod1');
+      const b2 = document.getElementById('btnPeriod2');
+      const label = document.getElementById('activePeriodLabel');
+      const sub = document.getElementById('shiftChartSubtitle');
+
+      if (period === 'p1') {
+        b1.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-indigo-700 shadow-sm flex items-center gap-1.5 font-heading";
+        b2.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-heading";
+        label.textContent = "งวด 1-15 ก.ย. 2569";
+        sub.textContent = "งวด 1-15 ก.ย. 2569";
+      } else {
+        b2.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-indigo-700 shadow-sm flex items-center gap-1.5 font-heading";
+        b1.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-heading";
+        label.textContent = "งวด 16-30 ก.ย. 2569 (Audit & สิ้นสุดสัญญา)";
+        sub.textContent = "งวด 16-30 ก.ย. 2569 (ปลายเดือน)";
+      }
+
+      handleFilterChange();
+    }
+
+    // Filter Logic
+    function getFilteredData() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const zone = document.getElementById('filterZone').value;
+      const inspector = document.getElementById('filterInspector').value;
+      const shift = document.getElementById('filterShift').value;
+      const status = document.getElementById('filterStatus').value;
+
+      return MASTER_DATASET.filter(row => {
+        // Query search
+        const matchSearch = !q ||
+          row.name.toLowerCase().includes(q) ||
+          row.code.toLowerCase().includes(q) ||
+          row.inspector.toLowerCase().includes(q);
+
+        // Zone filter
+        const matchZone = zone === 'ALL' || row.zone === zone;
+
+        // Inspector filter
+        const matchInspector = inspector === 'ALL' || row.inspector.includes(inspector);
+
+        // Dynamic values based on active period
+        const rowShift = currentPeriod === 'p1' ? row.p1_shift : row.p2_shift;
+        const rowRest = currentPeriod === 'p1' ? row.p1_rest : row.p2_rest;
+        const rowNote = currentPeriod === 'p1' ? row.p1_note : row.p2_note;
+
+        // Shift filter
+        const matchShift = shift === 'ALL' || rowShift.includes(shift);
+
+        // Status / Risk filter
+        let matchStatus = true;
+        if (status === 'expire') {
+          matchStatus = row.name.includes('ยกเลิก') || row.name.includes('ลูกค้ายก') || rowNote.includes('สิ้นสุด') || rowNote.includes('ยกเลิก');
+        } else if (status === 'audit') {
+          matchStatus = rowRest.includes('Audit') || rowNote.includes('Audit');
+        } else if (status === 'norest') {
+          matchStatus = rowRest === 'ไม่พัก';
+        } else if (status === 'normal') {
+          matchStatus = rowRest === 'พัก';
+        }
+
+        return matchSearch && matchZone && matchInspector && matchShift && matchStatus;
+      });
+    }
+
+    function handleFilterChange() {
+      const filtered = getFilteredData();
+      renderTable(filtered);
+      renderKPIs(filtered);
+      renderCharts(filtered);
+
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (document.getElementById('searchInput').value) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      handleFilterChange();
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('filterZone').value = 'ALL';
+      document.getElementById('filterInspector').value = 'ALL';
+      document.getElementById('filterShift').value = 'ALL';
+      document.getElementById('filterStatus').value = 'ALL';
+      handleFilterChange();
+    }
+
+    function quickFilterAction(action) {
+      if (action === 'seksan') {
+        document.getElementById('filterInspector').value = 'เสกสรรณ์';
+      } else if (action === 'theerawat') {
+        document.getElementById('filterInspector').value = 'ธีราวัฒน์';
+      } else if (action === 'expire') {
+        document.getElementById('filterStatus').value = 'expire';
+      } else if (action === 'audit') {
+        document.getElementById('filterStatus').value = 'audit';
+      } else if (action === 'norest') {
+        document.getElementById('filterStatus').value = 'norest';
+      }
+      handleFilterChange();
+    }
+
+    // Render Metrics
+    function renderKPIs(data) {
+      const totalUnits = data.length;
+      const totalGuards = data.reduce((acc, cur) => acc + cur.guards, 0);
+      const zone1Count = data.filter(d => d.zone === 'เขต 1').length;
+      const zone2Count = data.filter(d => d.zone === 'เขต 2').length;
+      const avg = totalUnits > 0 ? (totalGuards / totalUnits).toFixed(2) : "0.00";
+
+      let shift1 = 0;
+      let norest = 0;
+
+      data.forEach(item => {
+        const s = currentPeriod === 'p1' ? item.p1_shift : item.p2_shift;
+        const r = currentPeriod === 'p1' ? item.p1_rest : item.p2_rest;
+        if (s.includes('ควงสลับหยุด')) shift1++;
+        if (r === 'ไม่พัก') norest++;
+      });
+
+      const shift1Pct = totalUnits > 0 ? ((shift1 / totalUnits) * 100).toFixed(1) : 0;
+      const otherShift = totalUnits - shift1;
+
+      document.getElementById('kpiSitesCount').textContent = totalUnits;
+      document.getElementById('kpiZone1Sites').textContent = zone1Count;
+      document.getElementById('kpiZone2Sites').textContent = zone2Count;
+      document.getElementById('kpiGuardsCount').textContent = totalGuards;
+      document.getElementById('kpiAvgGuards').textContent = `${avg} นาย / หน่วย`;
+      document.getElementById('kpiShift1Pct').textContent = `${shift1Pct}%`;
+      document.getElementById('kpiShift1Count').textContent = shift1;
+      document.getElementById('kpiOtherShiftCount').textContent = `${otherShift} จุด`;
+      document.getElementById('kpiAttentionCount').textContent = norest;
+
+      document.getElementById('tableCountBadge').textContent = `${totalUnits} / ${MASTER_DATASET.length} รายการ`;
+      document.getElementById('footerUnitsCount').textContent = totalUnits;
+      document.getElementById('footerGuardsCount').textContent = totalGuards;
+    }
+
+    // Render Table Rows
+    function renderTable(data) {
+      const tbody = document.getElementById('tableBody');
+
+      if (data.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="11" class="text-center py-12 text-slate-400">
+              <i class="fa-regular fa-folder-open text-3xl mb-2 block text-slate-300"></i>
+              ไม่พบข้อมูลหน่วยงานที่ตรงกับเงื่อนไขการค้นหา
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = data.map((site, index) => {
+        const shift = currentPeriod === 'p1' ? site.p1_shift : site.p2_shift;
+        const inspect = currentPeriod === 'p1' ? site.p1_inspect : site.p2_inspect;
+        const rest = currentPeriod === 'p1' ? site.p1_rest : site.p2_rest;
+        const note = currentPeriod === 'p1' ? site.p1_note : site.p2_note;
+
+        const isExpiring = site.name.includes('ยกเลิก') || site.name.includes('ลูกค้ายก') || note.includes('สิ้นสุด') || note.includes('ยกเลิก');
+        const isAudit = rest.includes('Audit') || note.includes('Audit');
+        const isNoRest = rest === 'ไม่พัก';
+
+        // Badges
+        let restBadge = `<span class="badge-soft-emerald px-2 py-0.5 rounded-full text-[11px] font-semibold">พักปกติ</span>`;
+        if (isNoRest) {
+          restBadge = `<span class="badge-soft-rose px-2 py-0.5 rounded-full text-[11px] font-bold">ไม่พัก</span>`;
+        } else if (isAudit) {
+          restBadge = `<span class="badge-soft-amber px-2 py-0.5 rounded-full text-[11px] font-bold">Audit</span>`;
+        }
+
+        let shiftBadge = `<span class="badge-soft-blue px-2 py-0.5 rounded-md text-[11px] font-medium">${shift}</span>`;
+        if (shift.includes('จ่าย 12')) {
+          shiftBadge = `<span class="badge-soft-amber px-2 py-0.5 rounded-md text-[11px] font-semibold">จ่าย 12 ชม.</span>`;
+        } else if (shift.includes('สแปร์')) {
+          shiftBadge = `<span class="badge-soft-purple px-2 py-0.5 rounded-md text-[11px] font-medium">หยุดจริง+สแปร์</span>`;
+        }
+
+        let noteBadge = `<span class="text-slate-400">-</span>`;
+        if (isExpiring) {
+          noteBadge = `<span class="badge-soft-rose px-2 py-1 rounded-lg text-[11px] font-bold inline-flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation text-rose-600"></i> สิ้นสุดสัญญา 30 ก.ย. 69</span>`;
+        } else if (isAudit) {
+          noteBadge = `<span class="badge-soft-amber px-2 py-1 rounded-lg text-[11px] font-bold inline-flex items-center gap-1"><i class="fa-solid fa-clipboard-check text-amber-600"></i> Audit ประจำงวด</span>`;
+        } else if (isNoRest) {
+          noteBadge = `<span class="text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200 text-[11px] font-medium">ทำงานต่อเนื่อง (ยิงยาว)</span>`;
+        } else if (note !== '-') {
+          noteBadge = `<span class="text-slate-700 text-[11px]">${note}</span>`;
+        }
+
+        return `
+          <tr class="hover:bg-indigo-50/40 transition cursor-pointer group" onclick="openDetailModal(${site.id})">
+            <td class="py-2.5 px-3.5 text-center text-slate-400 font-medium">${index + 1}</td>
+            <td class="py-2.5 px-3.5 whitespace-nowrap">
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 mr-1">${site.zone}</span>
+              <span class="text-[11px] font-medium text-slate-800">${site.inspector}</span>
+            </td>
+            <td class="py-2.5 px-3.5 text-center font-mono font-bold text-slate-600">${site.code}</td>
+            <td class="py-2.5 px-4 font-semibold text-slate-800 group-hover:text-indigo-600 transition">
+              <div class="flex items-center gap-1.5">
+                <span>${site.name}</span>
+                ${isExpiring ? '<i class="fa-solid fa-bell text-rose-500 text-xs"></i>' : ''}
+              </div>
+            </td>
+            <td class="py-2.5 px-3.5 text-center font-black text-indigo-700 text-sm font-heading">${site.guards}</td>
+            <td class="py-2.5 px-3.5 text-center whitespace-nowrap">${shiftBadge}</td>
+            <td class="py-2.5 px-3.5 text-center whitespace-nowrap">${restBadge}</td>
+            <td class="py-2.5 px-3.5 text-center text-emerald-600 font-bold text-xs"><i class="fa-solid fa-check"></i></td>
+            <td class="py-2.5 px-3.5 text-center text-emerald-600 font-bold text-xs"><i class="fa-solid fa-check"></i></td>
+            <td class="py-2.5 px-3.5">${noteBadge}</td>
+            <td class="py-2.5 px-3.5 text-center no-print">
+              <button class="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-indigo-600 group-hover:text-white text-slate-500 transition flex items-center justify-center mx-auto shadow-xs">
+                <i class="fa-solid fa-eye text-xs"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Initialize Chart.js
+    function initCharts() {
+      // 1. Inspector Workload Chart
+      const ctxBar = document.getElementById('inspectorChart').getContext('2d');
+      inspectorChartInstance = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: ['เสกสรรณ์ (ข.1)', 'อำนาจ (ข.1)', 'จักดุลย์ (ข.2)', 'พุทธพงศ์ (ข.2)', 'ธีราวัฒน์ (ข.2)'],
+          datasets: [
+            {
+              label: 'กำลังพล รปภ. (นาย)',
+              data: [63, 58, 57, 30, 34],
+              backgroundColor: '#4f46e5',
+              borderRadius: 8,
+              yAxisID: 'y'
+            },
+            {
+              label: 'จำนวนหน่วยงาน (แห่ง)',
+              data: [22, 14, 15, 9, 8],
+              backgroundColor: '#38bdf8',
+              borderRadius: 8,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { font: { family: 'Prompt', size: 11 }, boxWidth: 12 }
+            },
+            tooltip: {
+              padding: 10,
+              titleFont: { family: 'Prompt' },
+              bodyFont: { family: 'Sarabun' }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { font: { family: 'Prompt', size: 11 } }
+            },
+            y: {
+              type: 'linear',
+              position: 'left',
+              title: { display: true, text: 'อัตรา รปภ. (นาย)', font: { family: 'Prompt', size: 10 } },
+              grid: { color: '#f1f5f9' }
+            },
+            y1: {
+              type: 'linear',
+              position: 'right',
+              title: { display: true, text: 'จำนวนแห่ง', font: { family: 'Prompt', size: 10 } },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+
+      // 2. Shift Model Donut Chart
+      const ctxDonut = document.getElementById('shiftDonutChart').getContext('2d');
+      shiftDonutChartInstance = new Chart(ctxDonut, {
+        type: 'doughnut',
+        data: {
+          labels: ['ควงสลับหยุด', 'จ่าย 12 ชม.', 'หยุดจริง+สแปร์'],
+          datasets: [{
+            data: [52, 9, 7],
+            backgroundColor: ['#6366f1', '#f59e0b', '#10b981'],
+            borderWidth: 3,
+            borderColor: '#ffffff',
+            hoverOffset: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { font: { family: 'Prompt', size: 11 }, boxWidth: 12, padding: 12 }
+            }
+          },
+          cutout: '70%'
+        }
+      });
+    }
+
+    function renderCharts(data) {
+      if (!inspectorChartInstance || !shiftDonutChartInstance) return;
+
+      const inspectors = ['เสกสรรณ์', 'อำนาจ', 'จักดุลย์', 'พูทธพงศ์', 'ธีราวัฒน์'];
+      const guardsByInsp = inspectors.map(insp => {
+        return data.filter(d => d.inspector.includes(insp)).reduce((acc, cur) => acc + cur.guards, 0);
+      });
+      const sitesByInsp = inspectors.map(insp => {
+        return data.filter(d => d.inspector.includes(insp)).length;
+      });
+
+      inspectorChartInstance.data.datasets[0].data = guardsByInsp;
+      inspectorChartInstance.data.datasets[1].data = sitesByInsp;
+      inspectorChartInstance.update();
+
+      // Shift breakdown
+      let shift1 = 0;
+      let pay12 = 0;
+      let spare = 0;
+
+      data.forEach(item => {
+        const s = currentPeriod === 'p1' ? item.p1_shift : item.p2_shift;
+        if (s.includes('ควงสลับหยุด')) shift1++;
+        else if (s.includes('จ่าย 12')) pay12++;
+        else spare++;
+      });
+
+      shiftDonutChartInstance.data.datasets[0].data = [shift1, pay12, spare];
+      shiftDonutChartInstance.update();
+    }
+
+    // Modal Details
+    function openDetailModal(id) {
+      const site = MASTER_DATASET.find(s => s.id === id);
+      if (!site) return;
+
+      document.getElementById('modalCode').textContent = `CODE: ${site.code}`;
+      document.getElementById('modalZone').textContent = site.zone;
+      document.getElementById('modalName').textContent = site.name;
+      document.getElementById('modalInspector').textContent = `ผู้ตรวจการรับผิดชอบ: ${site.inspector} (${site.zone})`;
+      document.getElementById('modalGuards').textContent = `${site.guards} นาย`;
+
+      // Period 1
+      document.getElementById('modalP1Shift').textContent = site.p1_shift;
+      document.getElementById('modalP1Inspect').textContent = `สถานะการส่งตรวจ: ${site.p1_inspect} / สถานะพัก: ${site.p1_rest}`;
+      document.getElementById('modalP1Note').textContent = site.p1_note;
+
+      const p1Badge = document.getElementById('modalP1RestBadge');
+      if (site.p1_rest === 'ไม่พัก') {
+        p1Badge.className = 'badge-soft-rose px-2 py-0.5 rounded text-[11px] font-bold';
+        p1Badge.textContent = 'ไม่พัก/ทำงานต่อเนื่อง';
+      } else {
+        p1Badge.className = 'badge-soft-emerald px-2 py-0.5 rounded text-[11px] font-bold';
+        p1Badge.textContent = 'พักปกติ';
+      }
+
+      // Period 2
+      document.getElementById('modalP2Shift').textContent = site.p2_shift;
+      document.getElementById('modalP2Inspect').textContent = `สถานะการส่งตรวจ: ${site.p2_inspect} / สถานะพัก: ${site.p2_rest}`;
+      document.getElementById('modalP2Note').textContent = site.p2_note;
+
+      const p2Badge = document.getElementById('modalP2RestBadge');
+      if (site.name.includes('ยกเลิก') || site.p2_note.includes('สิ้นสุด')) {
+        p2Badge.className = 'badge-soft-rose px-2 py-0.5 rounded text-[11px] font-bold';
+        p2Badge.textContent = 'สิ้นสุดสัญญา 30 ก.ย.';
+      } else if (site.p2_rest === 'ไม่พัก') {
+        p2Badge.className = 'badge-soft-rose px-2 py-0.5 rounded text-[11px] font-bold';
+        p2Badge.textContent = 'ไม่พัก/ทำงานต่อเนื่อง';
+      } else {
+        p2Badge.className = 'badge-soft-emerald px-2 py-0.5 rounded text-[11px] font-bold';
+        p2Badge.textContent = 'พักปกติ';
+      }
+
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('detailModal').classList.add('hidden');
+    }
+
+    // Modal click outside to close
+    window.addEventListener('click', (e) => {
+      const modal = document.getElementById('detailModal');
+      if (e.target === modal) closeModal();
+    });
+
+    // Export CSV
+    function exportCSV() {
+      const data = getFilteredData();
+      let csv = "\uFEFFลำดับ,เขต,สายตรวจ,รหัสหน่วยงาน,ชื่อหน่วยงาน,กำลังพลตามสัญญา,รูปแบบกะ_งวด1,สถานะพัก_งวด1,หมายเหตุ_งวด1,รูปแบบกะ_งวด2,สถานะพัก_งวด2,หมายเหตุ_งวด2,ตารางวันหยุด\n";
+
+      data.forEach((item, idx) => {
+        const row = [
+          idx + 1,
+          `"${item.zone}"`,
+          `"${item.inspector}"`,
+          `"${item.code}"`,
+          `"${item.name.replace(/"/g, '""')}"`,
+          item.guards,
+          `"${item.p1_shift}"`,
+          `"${item.p1_rest}"`,
+          `"${item.p1_note}"`,
+          `"${item.p2_shift}"`,
+          `"${item.p2_rest}"`,
+          `"${item.p2_note}"`,
+          `"${item.p1_sched}"`
+        ];
+        csv += row.join(",") + "\n";
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Security_Executive_Report_Sep2569.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Startup
+    window.addEventListener('DOMContentLoaded', () => {
+      initCharts();
+      handleFilterChange();
+    });
+  </script>
+</body>
+</html>
